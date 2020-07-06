@@ -107,9 +107,25 @@ h1 {
 }
 
 
-.item{
+/* desde este punto comienza MI codigo*/
+
+div{ 
     width: 50%;
     box-sizing: border-box;
     border: #333333;
     border-style: solid;
 }
+
+#popUp{
+    display: none; /* esto hace que el pop up no aparezca hasta precionar el boton*/
+    border: #333333;
+    border-style: solid;
+}
+
+
+table{
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
