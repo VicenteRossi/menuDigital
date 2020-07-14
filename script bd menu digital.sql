@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `menuDigital`.`item` (
   `idItem` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `precio` INT NOT NULL,
-  `imagen` BLOB NULL,
+  `imagen` LONGBLOB NULL,
   `descripcion` VARCHAR(45) NULL,
   `categoria_idCategoria` INT NOT NULL,
   PRIMARY KEY (`idItem`, `categoria_idCategoria`),
@@ -57,7 +57,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `menuDigital`.`mesa` (
   `idMesa` INT NOT NULL AUTO_INCREMENT,
-  `mesa` INT NULL,
   PRIMARY KEY (`idMesa`))
 ENGINE = InnoDB;
 

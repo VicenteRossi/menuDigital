@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modelo;
+package Vista;
+
+import Controlador.Admin;
+
 
 
 
@@ -78,13 +81,12 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(cbxVerClave)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
-                            .addComponent(lblResultadoLogin))
-                        .addComponent(txtClave)
-                        .addComponent(txtUsuario)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(cbxVerClave)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                        .addComponent(lblResultadoLogin))
+                    .addComponent(txtClave, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -134,7 +136,24 @@ public class Login extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         String usuario = txtUsuario.getText();
         String clave = txtClave.getText();
+     
+        Admin a=new Admin();
+        Admin encontrado = a.login(usuario, clave);
         
+        if(usuario.equals("") || clave.equals("")){
+            lblResultadoLogin.setText("Complete los campos vacios");
+            txtUsuario.setText("");
+            txtClave.setText("");
+        }else{
+            if (encontrado == null) {
+                lblResultadoLogin.setText("Usuario no encontrado");
+                txtUsuario.setText("");
+                txtClave.setText("");
+            }else{
+                CRUD c = new CRUD();
+                c.setVisible(true);
+            }
+        }
         
     }//GEN-LAST:event_btnLoginActionPerformed
 

@@ -3,7 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modelo;
+package Vista;
+
+import Controlador.Admin;
+import Controlador.Categoria;
+import Controlador.Item;
+import Controlador.Mesa;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -16,6 +27,27 @@ public class CRUD extends javax.swing.JFrame {
      */
     public CRUD() {
         initComponents();
+        //Desplegar listas de tablas
+
+        //Categoria
+        lstVerCrearCategoria.setModel(modeloCategoria);
+        lstVerEliminarCategoria.setModel(modeloCategoria);
+        lstVerModificarCategoria.setModel(modeloCategoria);
+
+        //Item
+        lstVerCrearItem.setModel(modeloitem);
+        lstVerModificarItem.setModel(modeloitem);
+        lstVerEliminarItem.setModel(modeloitem);
+
+        //Usuarios
+        lstVerCrearUsuarios.setModel(modeloUsuario);
+        lstVerEliminarUsuario.setModel(modeloUsuario);
+        lstVerModificarUsuario.setModel(modeloUsuario);
+
+        //mesas
+        lstVerCrearMesas.setModel(modeloMesa);
+        lstVerEliminarMesas.setModel(modeloMesa);
+
     }
 
     /**
@@ -39,7 +71,6 @@ public class CRUD extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstVerCrearItem = new javax.swing.JList<>();
-        lblResualtadoCrearUsuario = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -47,11 +78,12 @@ public class CRUD extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         txtCrearNombre = new javax.swing.JTextField();
         txtCrearPrecio = new javax.swing.JTextField();
-        chbCrearCategoria = new javax.swing.JComboBox<>();
+        cbxCrearCategoria = new javax.swing.JComboBox<>();
         btnBuscarCrearImagen = new javax.swing.JButton();
-        lblRutaImagen = new javax.swing.JLabel();
         txtCrearDescripcion = new javax.swing.JTextField();
         btnCrearItem = new javax.swing.JButton();
+        lblResultadoCrearItem = new javax.swing.JLabel();
+        lblRutaImagen = new javax.swing.JLabel();
         panelModificarItem = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -68,11 +100,13 @@ public class CRUD extends javax.swing.JFrame {
         lblRutaBuscarImagen = new javax.swing.JLabel();
         txtModificarDescripcion = new javax.swing.JTextField();
         btnModificarItem = new javax.swing.JButton();
+        lblResultadoModificarItem = new javax.swing.JLabel();
         panelEliminarItem = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         btnEliminarItem = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        lstVerEliminarItem = new javax.swing.JList<>();
+        lblResultadoEliminarItem = new javax.swing.JLabel();
         panelCategorias = new javax.swing.JTabbedPane();
         panelCrearCategoria = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -80,7 +114,7 @@ public class CRUD extends javax.swing.JFrame {
         lstVerCrearCategoria = new javax.swing.JList<>();
         jLabel15 = new javax.swing.JLabel();
         txtCrearCategoria = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnCrearCategoria = new javax.swing.JButton();
         lblResultadoCrearCategoria = new javax.swing.JLabel();
         panelModificarCategoria = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
@@ -94,7 +128,7 @@ public class CRUD extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         lstVerEliminarCategoria = new javax.swing.JList<>();
-        lblCategoria = new javax.swing.JLabel();
+        lblResultadoEliminarCategoria = new javax.swing.JLabel();
         btnEliminarCategoria = new javax.swing.JButton();
         panelMesas = new javax.swing.JTabbedPane();
         panelCrearMesa = new javax.swing.JPanel();
@@ -140,6 +174,11 @@ public class CRUD extends javax.swing.JFrame {
         lblResultadoEliminarUsuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         btnItems.setText("Items");
         btnItems.addActionListener(new java.awt.event.ActionListener() {
@@ -189,7 +228,7 @@ public class CRUD extends javax.swing.JFrame {
                 .addComponent(btnItems, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(btnMesas, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,10 +253,18 @@ public class CRUD extends javax.swing.JFrame {
         jLabel9.setText("Descripcion");
 
         btnBuscarCrearImagen.setText("Buscar");
-
-        lblRutaImagen.setText("jLabel10");
+        btnBuscarCrearImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarCrearImagenActionPerformed(evt);
+            }
+        });
 
         btnCrearItem.setText("Crear Item");
+        btnCrearItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearItemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelCrearItemLayout = new javax.swing.GroupLayout(panelCrearItem);
         panelCrearItem.setLayout(panelCrearItemLayout);
@@ -241,20 +288,19 @@ public class CRUD extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                        .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelCrearItemLayout.createSequentialGroup()
-                                .addComponent(lblRutaImagen)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnBuscarCrearImagen))
-                            .addComponent(chbCrearCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel9)
+                        .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnBuscarCrearImagen, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cbxCrearCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCrearItemLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtCrearDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCrearItemLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblResualtadoCrearUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblRutaImagen, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnCrearItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                            .addComponent(txtCrearDescripcion, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(lblResultadoCrearItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
             .addGroup(panelCrearItemLayout.createSequentialGroup()
                 .addGap(114, 114, 114)
@@ -266,40 +312,38 @@ public class CRUD extends javax.swing.JFrame {
             .addGroup(panelCrearItemLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelCrearItemLayout.createSequentialGroup()
-                        .addGap(160, 160, 160)
-                        .addComponent(lblResualtadoCrearUsuario)
-                        .addContainerGap(133, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
                     .addGroup(panelCrearItemLayout.createSequentialGroup()
+                        .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtCrearNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelCrearItemLayout.createSequentialGroup()
-                                .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(txtCrearNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel6)
-                                    .addComponent(txtCrearPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(2, 2, 2)
-                                .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel7)
-                                    .addComponent(chbCrearCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel8)
-                                    .addComponent(btnBuscarCrearImagen)
-                                    .addComponent(lblRutaImagen))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel9)
-                                    .addComponent(txtCrearDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnCrearItem)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1))
-                        .addContainerGap())))
+                        .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtCrearPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(2, 2, 2)
+                        .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(cbxCrearCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(btnBuscarCrearImagen))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblRutaImagen)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelCrearItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCrearDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCrearItem)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblResultadoCrearItem, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 81, Short.MAX_VALUE))))
         );
 
         panelItems.addTab("Crear", panelCrearItem);
@@ -323,8 +367,6 @@ public class CRUD extends javax.swing.JFrame {
 
         btnBuscarModificarImagen.setText("Buscar");
 
-        lblRutaBuscarImagen.setText("jLabel13");
-
         btnModificarItem.setText("Modificar item");
 
         javax.swing.GroupLayout panelModificarItemLayout = new javax.swing.GroupLayout(panelModificarItem);
@@ -338,7 +380,7 @@ public class CRUD extends javax.swing.JFrame {
                 .addGroup(panelModificarItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelModificarItemLayout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                         .addComponent(txtModificarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelModificarItemLayout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -357,7 +399,10 @@ public class CRUD extends javax.swing.JFrame {
                                 .addComponent(lblRutaBuscarImagen)
                                 .addGap(66, 66, 66)
                                 .addComponent(btnBuscarModificarImagen))
-                            .addComponent(cbxModificarCategoria, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cbxModificarCategoria, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelModificarItemLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblResultadoModificarItem)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelModificarItemLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -395,7 +440,9 @@ public class CRUD extends javax.swing.JFrame {
                             .addComponent(txtModificarDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(btnModificarItem)
-                        .addGap(0, 43, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblResultadoModificarItem)
+                        .addGap(0, 103, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -404,36 +451,27 @@ public class CRUD extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Ubuntu", 1, 48)); // NOI18N
         jLabel13.setText("Eliminar item");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane4.setViewportView(jTable1);
-
         btnEliminarItem.setText("Eliminar item");
+
+        jScrollPane4.setViewportView(lstVerEliminarItem);
 
         javax.swing.GroupLayout panelEliminarItemLayout = new javax.swing.GroupLayout(panelEliminarItem);
         panelEliminarItem.setLayout(panelEliminarItemLayout);
         panelEliminarItemLayout.setHorizontalGroup(
             panelEliminarItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEliminarItemLayout.createSequentialGroup()
+                .addGap(82, 82, 82)
+                .addComponent(jLabel13)
+                .addContainerGap(151, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEliminarItemLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelEliminarItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEliminarItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelEliminarItemLayout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addComponent(jLabel13)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEliminarItemLayout.createSequentialGroup()
-                        .addGap(0, 69, Short.MAX_VALUE)
-                        .addGroup(panelEliminarItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane4)
-                            .addComponent(btnEliminarItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(lblResultadoEliminarItem)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelEliminarItemLayout.setVerticalGroup(
@@ -441,11 +479,15 @@ public class CRUD extends javax.swing.JFrame {
             .addGroup(panelEliminarItemLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnEliminarItem)
-                .addGap(240, 240, 240))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEliminarItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelEliminarItemLayout.createSequentialGroup()
+                        .addComponent(btnEliminarItem)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblResultadoEliminarItem)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         panelItems.addTab("Eliminar", panelEliminarItem);
@@ -464,7 +506,12 @@ public class CRUD extends javax.swing.JFrame {
 
         jLabel15.setText("Categoria");
 
-        jButton1.setText("Crear categoria");
+        btnCrearCategoria.setText("Crear categoria");
+        btnCrearCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearCategoriaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelCrearCategoriaLayout = new javax.swing.GroupLayout(panelCrearCategoria);
         panelCrearCategoria.setLayout(panelCrearCategoriaLayout);
@@ -484,7 +531,7 @@ public class CRUD extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(panelCrearCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCrearCategoria)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(btnCrearCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCrearCategoriaLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblResultadoCrearCategoria)))
@@ -497,16 +544,16 @@ public class CRUD extends javax.swing.JFrame {
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelCrearCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
                     .addGroup(panelCrearCategoriaLayout.createSequentialGroup()
                         .addGroup(panelCrearCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
                             .addComponent(txtCrearCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)
+                        .addComponent(btnCrearCategoria)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblResultadoCrearCategoria)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 265, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3))
                 .addContainerGap())
         );
 
@@ -515,11 +562,21 @@ public class CRUD extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Ubuntu", 1, 48)); // NOI18N
         jLabel16.setText("Modificar categoria");
 
+        lstVerModificarCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstVerModificarCategoriaMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(lstVerModificarCategoria);
 
         jLabel17.setText("Categoria");
 
         btnModificarCategoria.setText("Modificar Categoria");
+        btnModificarCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarCategoriaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelModificarCategoriaLayout = new javax.swing.GroupLayout(panelModificarCategoria);
         panelModificarCategoria.setLayout(panelModificarCategoriaLayout);
@@ -552,7 +609,7 @@ public class CRUD extends javax.swing.JFrame {
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelModificarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
                     .addGroup(panelModificarCategoriaLayout.createSequentialGroup()
                         .addGroup(panelModificarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17)
@@ -573,6 +630,11 @@ public class CRUD extends javax.swing.JFrame {
         jScrollPane7.setViewportView(lstVerEliminarCategoria);
 
         btnEliminarCategoria.setText("Eliminar categoria");
+        btnEliminarCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarCategoriaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelEliminarCategoriaLayout = new javax.swing.GroupLayout(panelEliminarCategoria);
         panelEliminarCategoria.setLayout(panelEliminarCategoriaLayout);
@@ -589,7 +651,7 @@ public class CRUD extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(panelEliminarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelEliminarCategoriaLayout.createSequentialGroup()
-                                .addComponent(lblCategoria)
+                                .addComponent(lblResultadoEliminarCategoria)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))))
                 .addContainerGap())
@@ -601,9 +663,9 @@ public class CRUD extends javax.swing.JFrame {
                 .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEliminarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
                     .addGroup(panelEliminarCategoriaLayout.createSequentialGroup()
-                        .addComponent(lblCategoria)
+                        .addComponent(lblResultadoEliminarCategoria)
                         .addGap(37, 37, 37)
                         .addComponent(btnEliminarCategoria)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -620,6 +682,11 @@ public class CRUD extends javax.swing.JFrame {
         jScrollPane6.setViewportView(lstVerCrearMesas);
 
         btnCrearMesa.setText("Agregar mesa");
+        btnCrearMesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearMesaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelCrearMesaLayout = new javax.swing.GroupLayout(panelCrearMesa);
         panelCrearMesa.setLayout(panelCrearMesaLayout);
@@ -632,9 +699,9 @@ public class CRUD extends javax.swing.JFrame {
                         .addComponent(jLabel19)
                         .addGap(0, 119, Short.MAX_VALUE))
                     .addGroup(panelCrearMesaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelCrearMesaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnCrearMesa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCrearMesaLayout.createSequentialGroup()
@@ -649,13 +716,12 @@ public class CRUD extends javax.swing.JFrame {
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelCrearMesaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
                     .addGroup(panelCrearMesaLayout.createSequentialGroup()
                         .addComponent(btnCrearMesa)
                         .addGap(18, 18, 18)
                         .addComponent(lblResultadoCrearMesa)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addContainerGap(311, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)))
         );
 
         panelMesas.addTab("Crear", panelCrearMesa);
@@ -666,6 +732,11 @@ public class CRUD extends javax.swing.JFrame {
         jScrollPane8.setViewportView(lstVerEliminarMesas);
 
         btnEliminarMesa.setText("Eliminar mesa");
+        btnEliminarMesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarMesaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelEliminarMesaLayout = new javax.swing.GroupLayout(panelEliminarMesa);
         panelEliminarMesa.setLayout(panelEliminarMesaLayout);
@@ -695,7 +766,7 @@ public class CRUD extends javax.swing.JFrame {
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEliminarMesaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
                     .addGroup(panelEliminarMesaLayout.createSequentialGroup()
                         .addComponent(btnEliminarMesa)
                         .addGap(18, 18, 18)
@@ -718,8 +789,18 @@ public class CRUD extends javax.swing.JFrame {
         jLabel23.setText("Clave");
 
         chbVerClaveCrearUsuario.setText("Ver clave");
+        chbVerClaveCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbVerClaveCrearUsuarioActionPerformed(evt);
+            }
+        });
 
         btnCrearUsuario.setText("Crear usuario");
+        btnCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearUsuarioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelCrearUsuariosLayout = new javax.swing.GroupLayout(panelCrearUsuarios);
         panelCrearUsuarios.setLayout(panelCrearUsuariosLayout);
@@ -772,7 +853,7 @@ public class CRUD extends javax.swing.JFrame {
                         .addComponent(btnCrearUsuario)
                         .addGap(18, 18, 18)
                         .addComponent(lblResultadoCrearUsuario)
-                        .addGap(0, 111, Short.MAX_VALUE)))
+                        .addGap(0, 183, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -781,6 +862,11 @@ public class CRUD extends javax.swing.JFrame {
         jLabel24.setFont(new java.awt.Font("Ubuntu", 1, 48)); // NOI18N
         jLabel24.setText("Modificar usuario");
 
+        lstVerModificarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstVerModificarUsuarioMouseClicked(evt);
+            }
+        });
         jScrollPane10.setViewportView(lstVerModificarUsuario);
 
         jLabel25.setText("Nombre");
@@ -788,8 +874,18 @@ public class CRUD extends javax.swing.JFrame {
         jLabel26.setText("Clave");
 
         chbVerClaveModificarUsuario.setText("Ver clave");
+        chbVerClaveModificarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbVerClaveModificarUsuarioActionPerformed(evt);
+            }
+        });
 
         btnModificarUsuario.setText("Modificar usuario");
+        btnModificarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarUsuarioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelModificarUsuarioLayout = new javax.swing.GroupLayout(panelModificarUsuario);
         panelModificarUsuario.setLayout(panelModificarUsuarioLayout);
@@ -841,7 +937,7 @@ public class CRUD extends javax.swing.JFrame {
                         .addComponent(btnModificarUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblResultadoModificarUsuario)
-                        .addGap(0, 117, Short.MAX_VALUE)))
+                        .addGap(0, 189, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -853,6 +949,11 @@ public class CRUD extends javax.swing.JFrame {
         jScrollPane11.setViewportView(lstVerEliminarUsuario);
 
         btnEliminarUsuario.setText("Eliminar Usuario");
+        btnEliminarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarUsuarioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelEliminarUsuarioLayout = new javax.swing.GroupLayout(panelEliminarUsuario);
         panelEliminarUsuario.setLayout(panelEliminarUsuarioLayout);
@@ -910,8 +1011,10 @@ public class CRUD extends javax.swing.JFrame {
             .addGroup(myPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(myPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelCRUD, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(panelTablas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelCRUD)
+                    .addGroup(myPanelLayout.createSequentialGroup()
+                        .addComponent(panelTablas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -923,39 +1026,321 @@ public class CRUD extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(myPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(myPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnItemsActionPerformed
-       panelCRUD.removeAll();
-       panelCRUD.add(panelItems);
-       panelCRUD.repaint();
-       panelCRUD.revalidate();
+        panelCRUD.removeAll();
+        panelCRUD.add(panelItems);
+        panelCRUD.repaint();
+        panelCRUD.revalidate();
     }//GEN-LAST:event_btnItemsActionPerformed
 
     private void btnCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoriasActionPerformed
-       panelCRUD.removeAll();
-       panelCRUD.add(panelCategorias);
-       panelCRUD.repaint();
-       panelCRUD.revalidate();
+        panelCRUD.removeAll();
+        panelCRUD.add(panelCategorias);
+        panelCRUD.repaint();
+        panelCRUD.revalidate();
     }//GEN-LAST:event_btnCategoriasActionPerformed
 
     private void btnMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesasActionPerformed
-       panelCRUD.removeAll();
-       panelCRUD.add(panelMesas);
-       panelCRUD.repaint();
-       panelCRUD.revalidate();
+        panelCRUD.removeAll();
+        panelCRUD.add(panelMesas);
+        panelCRUD.repaint();
+        panelCRUD.revalidate();
     }//GEN-LAST:event_btnMesasActionPerformed
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
-       panelCRUD.removeAll();
-       panelCRUD.add(panelUsuarios);
-       panelCRUD.repaint();
-       panelCRUD.revalidate();
+        panelCRUD.removeAll();
+        panelCRUD.add(panelUsuarios);
+        panelCRUD.repaint();
+        panelCRUD.revalidate();
     }//GEN-LAST:event_btnUsuariosActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        //ver tabal Categoria
+        String queryCategoria = "select * from categoria";
+        cate.setQuery(queryCategoria);
+        ArrayList<Categoria> listaCategoria = cate.verCategoria();
+
+        if (listaCategoria != null) {
+            for (Categoria categoria : listaCategoria) {
+                modeloCategoria.addElement(categoria.toString());
+            }
+        } else {
+            lblResultadoCrearCategoria.setText("No hay categorias");
+            lblResultadoModificarCategoria.setText("No hay categorias");
+            lblResultadoEliminarCategoria.setText("No hay categorias");
+        }
+
+        //ver tabla admin
+        String queryUsuario = "select * from admin";
+        admin.setQuery(queryUsuario);
+        ArrayList<Admin> listaUsuario = admin.verUsuario();
+
+        if (listaUsuario != null) {
+            for (Admin admin : listaUsuario) {
+                modeloUsuario.addElement(admin.toString());
+            }
+        } else {
+            lblResultadoCrearItem.setText("No hay usuarios");
+            lblResultadoEliminarUsuario.setText("No hay usuarios");
+            lblResultadoModificarUsuario.setText("No hay usuarios");
+        }
+
+        //ver tabla item
+        String queryItem = "SELECT * FROM item";
+        item.setQuery(queryItem);
+        ArrayList<Item> listaItem = item.verItem();
+
+        if (listaItem != null) {
+            for (Item i : listaItem) {
+                modeloitem.addElement(i.toString());
+            }
+        } else {
+            lblResultadoCrearItem.setText("No hay item");
+            lblResultadoEliminarItem.setText("No hay item");
+            lblResultadoModificarItem.setText("No hay item");
+        }
+
+        //ver tabla mesa
+        String queryMesa = "SELECT `mesa` FROM `mesa`";
+        item.setQuery(queryMesa);
+        ArrayList<Mesa> listaMesa = mesa.verMesa();
+
+        if (listaMesa != null) {
+            for (Mesa m : listaMesa) {
+                modeloMesa.addElement(m.toString());
+            }
+        } else {
+            lblResultadoCrearMesa.setText("No hay mesas");
+            lblResultadoEliminarMesa.setText("No hay mesas");
+        }
+
+        //Asignar categoria a item
+        String queryVerCategorias = "SELECT `categoria` FROM `categoria`";
+        cate.setQuery(queryVerCategorias);
+        ArrayList<Categoria> lista = cate.verCategoria();
+        for (Categoria c : lista) {
+            cbxModificarCategoria.addItem(c.toString());
+            cbxCrearCategoria.addItem(c.toString());
+        }
+
+    }//GEN-LAST:event_formWindowOpened
+
+    //Crear categoria
+    private void btnCrearCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCategoriaActionPerformed
+        String categoria = txtCrearCategoria.getText();
+        String query = "INSERT INTO `categoria`(`categoria`) VALUES ('" + categoria + "')";
+        cate.setQuery(query);
+
+        if (categoria.equals("")) {
+            lblResultadoCrearCategoria.setText("Complete el campo vacio");
+        } else {
+            if (!cate.crearCategoria()) {
+                lblResultadoCrearCategoria.setText("Error al crear categoria");
+            } else {
+                lblResultadoCrearCategoria.setText("Exito al crear categoria");
+            }
+        }
+    }//GEN-LAST:event_btnCrearCategoriaActionPerformed
+
+    //Agregar item
+    private void btnCrearItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearItemActionPerformed
+        String nombre = txtCrearNombre.getText();
+        String precio = txtCrearPrecio.getText();
+        int categoria = cbxCrearCategoria.getSelectedIndex() + 1;
+        String descripcion = txtCrearDescripcion.getText();
+        String ruta = lblRutaImagen.getText();
+        
+        //FileInputStream fi = new FileInputStream(foto);
+
+        String query = "INSERT INTO `item`(`nombre`, `precio`, `imagen`, `descripcion`, `categoria_idCategoria`)"
+                + " VALUES ('" + nombre + "'," + precio + ",LOAD_FILE('" + ruta + "'),'" + descripcion + "'," + categoria + ")";
+
+        item.setQuery(query);
+
+        if (nombre.equals("") || precio.equals("")) {
+            lblResultadoCrearItem.setText("Complete los campos necesarios");
+        } else {
+            if (item.crearItem()) {
+                lblResultadoCrearItem.setText("Exito al crear item");
+            } else {
+                lblResultadoCrearItem.setText("Error al crear item");
+            }
+        }
+    }//GEN-LAST:event_btnCrearItemActionPerformed
+
+    //Buscar imagen para crear item
+    private void btnBuscarCrearImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarCrearImagenActionPerformed
+        JFileChooser fc = new JFileChooser(); //Escoger imagen
+        fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); //buscar y seleccionar carpetas y archivos
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.PNG", "png", "*.JPG", "jpg"); //filtar tipos de archivos
+        fc.setFileFilter(filtro); //asignar filtro al selector
+
+        int seleccion = fc.showOpenDialog(this); //guardar resultado de la seleccion
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) { //Aprovar seleccion de imagen
+            File foto = fc.getSelectedFile(); //guradar imagen
+            String ruta = foto.getAbsolutePath(); //obtener ruta de la imagen
+            lblRutaImagen.setText(ruta);
+        }
+    }//GEN-LAST:event_btnBuscarCrearImagenActionPerformed
+
+    //modificar categoria
+    private void btnModificarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarCategoriaActionPerformed
+        String categoria = txtModificarCategoria.getText();
+        String seleccion = lstVerModificarCategoria.getSelectedValue();
+        String query = "UPDATE `categoria` SET `categoria`='" + categoria + "' WHERE `categoria` = '" + seleccion + "'";
+        cate.setQuery(query);
+
+        if (categoria.equals("")) {
+            lblResultadoModificarCategoria.setText("Complete los campos");
+        } else {
+            if (cate.modificarCategoria()) {
+                lblResultadoModificarCategoria.setText("Exito al modificar");
+            } else {
+                lblResultadoModificarCategoria.setText("Error al modificar");
+            }
+        }
+
+    }//GEN-LAST:event_btnModificarCategoriaActionPerformed
+    //Seleccionar elemento de lista para modificar categoria
+    private void lstVerModificarCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstVerModificarCategoriaMouseClicked
+        String seleccion = lstVerModificarCategoria.getSelectedValue();
+        txtModificarCategoria.setText(seleccion);
+    }//GEN-LAST:event_lstVerModificarCategoriaMouseClicked
+
+    //Eliminar categoria
+    private void btnEliminarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarCategoriaActionPerformed
+        String seleccion = lstVerEliminarCategoria.getSelectedValue();
+        String query = "DELETE FROM `categoria` WHERE `categoria` = '" + seleccion + "'";
+        cate.setQuery(query);
+
+        if (cate.eliminarCategoria()) {
+            lblResultadoEliminarCategoria.setText("Exito al eliminar categoria");
+        } else {
+            lblResultadoEliminarCategoria.setText("Error al eliminar categoria");
+        }
+    }//GEN-LAST:event_btnEliminarCategoriaActionPerformed
+
+    //Crear mesa
+    private void btnCrearMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearMesaActionPerformed
+        int lista = lstVerCrearMesas.getLastVisibleIndex();
+        int insert = 1 + lista;
+
+        String query = "INSERT INTO `mesa`(`mesa`) VALUES ('" + insert + "')";
+        mesa.setQuery(query);
+
+        if (mesa.crearMesa()) {
+            lblResultadoCrearMesa.setText("Exito al crear mesa");
+        } else {
+            lblResultadoCrearMesa.setText("Error al crear mesa");
+        }
+    }//GEN-LAST:event_btnCrearMesaActionPerformed
+
+    //Eliminar mesa
+    private void btnEliminarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarMesaActionPerformed
+        int ultimaMesa = lstVerEliminarMesas.getLastVisibleIndex();
+
+        String query = "DELETE FROM `mesa` WHERE idMesa = " + ultimaMesa + "";
+        mesa.setQuery(query);
+
+        if (mesa.eliminarMesa()) {
+            lblResultadoEliminarMesa.setText("Exito al eliminar mesa");
+        } else {
+            lblResultadoEliminarMesa.setText("Error al eliminar mesa");
+        }
+    }//GEN-LAST:event_btnEliminarMesaActionPerformed
+
+    //Crear usuario
+    private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
+        String usuario = txtCrearUsuario.getText();
+        String clave = txtCrearClave.getText();
+
+        String query = "INSERT INTO `admin`(`usuario`, `clave`) VALUES ('" + usuario + "','" + clave + "')";
+        admin.setQuery(query);
+
+        if (usuario.equals("") || clave.equals("")) {
+            lblResultadoCrearUsuario.setText("Complete los campos");
+        } else {
+            if (admin.crearUsuario()) {
+                lblResultadoCrearUsuario.setText("Exito al crear usuario");
+                txtCrearUsuario.setText("");
+                txtCrearClave.setText("");
+            } else {
+                lblResultadoCrearUsuario.setText("Error al crear usuario");
+                txtCrearUsuario.setText("");
+                txtCrearClave.setText("");
+            }
+        }
+    }//GEN-LAST:event_btnCrearUsuarioActionPerformed
+
+    //ver clave crear usuario
+    private void chbVerClaveCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbVerClaveCrearUsuarioActionPerformed
+        if (chbVerClaveCrearUsuario.isSelected()) {
+            txtCrearClave.setEchoChar((char) 0);
+        } else {
+            txtCrearClave.setEchoChar('*');
+        }
+    }//GEN-LAST:event_chbVerClaveCrearUsuarioActionPerformed
+
+    //ver clave modificar usuario
+    private void chbVerClaveModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbVerClaveModificarUsuarioActionPerformed
+        if (chbVerClaveModificarUsuario.isSelected()) {
+            txtModificarClave.setEchoChar((char) 0);
+        } else {
+            txtModificarClave.setEchoChar('*');
+        }
+    }//GEN-LAST:event_chbVerClaveModificarUsuarioActionPerformed
+
+    //llenar campos de usuario a modificar
+    private void lstVerModificarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstVerModificarUsuarioMouseClicked
+        String seleccion = lstVerModificarUsuario.getSelectedValue();
+        txtModificarUsuario.setText(seleccion);
+        String query = "SELECT `clave` FROM `admin` WHERE usuario = '" + seleccion + "'";
+        admin.setQuery(query);
+        String clave = admin.buscarClave();
+        txtModificarClave.setText(clave);
+    }//GEN-LAST:event_lstVerModificarUsuarioMouseClicked
+
+    //Modificar usuario
+    private void btnModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarUsuarioActionPerformed
+        String usuario = txtModificarUsuario.getText();
+        String clave = txtModificarClave.getText();
+        String seleccion = lstVerModificarUsuario.getSelectedValue();
+        String query = "UPDATE `admin` SET `usuario`= '" + usuario + "',"
+                + "`clave`= '" + clave + "' WHERE usuario = '" + seleccion + "'";
+        admin.setQuery(query);
+
+        if (usuario.equals("") || clave.equals("")) {
+            lblResultadoModificarUsuario.setText("Complete los campos vacios");
+        } else {
+            if (admin.modificarUsuario()) {
+                lblResultadoModificarUsuario.setText("Exito al actualizar usuario");
+            } else {
+                lblResultadoModificarUsuario.setText("Error al actualizar usuario");
+            }
+        }
+    }//GEN-LAST:event_btnModificarUsuarioActionPerformed
+
+    //Eliminar usuario
+    private void btnEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuarioActionPerformed
+        String seleccion = lstVerEliminarUsuario.getSelectedValue();
+        String query = "DELETE FROM `admin` WHERE usuario = '" + seleccion + "'";
+        admin.setQuery(query);
+
+        if (admin.eliminarUsuario()) {
+            lblResultadoEliminarUsuario.setText("Exito al eliminar usuario");
+        } else {
+            lblResultadoEliminarUsuario.setText("Error al eliminar usuario");
+        }
+    }//GEN-LAST:event_btnEliminarUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -996,6 +1381,7 @@ public class CRUD extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarCrearImagen;
     private javax.swing.JButton btnBuscarModificarImagen;
     private javax.swing.JButton btnCategorias;
+    private javax.swing.JButton btnCrearCategoria;
     private javax.swing.JButton btnCrearItem;
     private javax.swing.JButton btnCrearMesa;
     private javax.swing.JButton btnCrearUsuario;
@@ -1009,11 +1395,10 @@ public class CRUD extends javax.swing.JFrame {
     private javax.swing.JButton btnModificarItem;
     private javax.swing.JButton btnModificarUsuario;
     private javax.swing.JButton btnUsuarios;
+    private javax.swing.JComboBox<String> cbxCrearCategoria;
     private javax.swing.JComboBox<String> cbxModificarCategoria;
-    private javax.swing.JComboBox<String> chbCrearCategoria;
     private javax.swing.JCheckBox chbVerClaveCrearUsuario;
     private javax.swing.JCheckBox chbVerClaveModificarUsuario;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1052,15 +1437,16 @@ public class CRUD extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lblCategoria;
-    private javax.swing.JLabel lblResualtadoCrearUsuario;
     private javax.swing.JLabel lblResultadoCrearCategoria;
+    private javax.swing.JLabel lblResultadoCrearItem;
     private javax.swing.JLabel lblResultadoCrearMesa;
     private javax.swing.JLabel lblResultadoCrearUsuario;
+    private javax.swing.JLabel lblResultadoEliminarCategoria;
+    private javax.swing.JLabel lblResultadoEliminarItem;
     private javax.swing.JLabel lblResultadoEliminarMesa;
     private javax.swing.JLabel lblResultadoEliminarUsuario;
     private javax.swing.JLabel lblResultadoModificarCategoria;
+    private javax.swing.JLabel lblResultadoModificarItem;
     private javax.swing.JLabel lblResultadoModificarUsuario;
     private javax.swing.JLabel lblRutaBuscarImagen;
     private javax.swing.JLabel lblRutaImagen;
@@ -1069,6 +1455,7 @@ public class CRUD extends javax.swing.JFrame {
     private javax.swing.JList<String> lstVerCrearMesas;
     private javax.swing.JList<String> lstVerCrearUsuarios;
     private javax.swing.JList<String> lstVerEliminarCategoria;
+    private javax.swing.JList<String> lstVerEliminarItem;
     private javax.swing.JList<String> lstVerEliminarMesas;
     private javax.swing.JList<String> lstVerEliminarUsuario;
     private javax.swing.JList<String> lstVerModificarCategoria;
@@ -1105,4 +1492,12 @@ public class CRUD extends javax.swing.JFrame {
     private javax.swing.JTextField txtModificarPrecio;
     private javax.swing.JTextField txtModificarUsuario;
     // End of variables declaration//GEN-END:variables
+    DefaultListModel<String> modeloCategoria = new DefaultListModel<>();
+    DefaultListModel<String> modeloitem = new DefaultListModel<>();
+    DefaultListModel<String> modeloMesa = new DefaultListModel<>();
+    DefaultListModel<String> modeloUsuario = new DefaultListModel<>();
+    Admin admin = new Admin();
+    Categoria cate = new Categoria();
+    Item item = new Item();
+    Mesa mesa = new Mesa();
 }
