@@ -5,11 +5,11 @@
  */
 package Controlador;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+//import java.sql.DriverManager;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +35,7 @@ public class Mesa {
     public Mesa() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/menuDigital?zeroDateTimeBehavior=CONVERT_TO_NULL", "root", "123456");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/menuDigital", "root", "123456");
 
             state = conn.createStatement();
 
@@ -64,12 +64,12 @@ public class Mesa {
         ArrayList<Mesa> lista = null;
         Mesa m;
 
-        try {
-            m = new Mesa();
+        try {            
             res = state.executeQuery(query);
             lista = new ArrayList<>();
             while (res.next()) {
-                m.setMesa(res.getInt("mesa"));
+                m = new Mesa();
+                m.setMesa(res.getInt("numero"));
                 lista.add(m);
             }
         } catch (SQLException ex) {

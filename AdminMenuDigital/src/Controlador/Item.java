@@ -5,6 +5,9 @@
  */
 package Controlador;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,12 +22,13 @@ import java.util.logging.Logger;
  * @author vicente
  */
 public class Item {
+
     private String nombre;
     private int precio;
     private String imagen;
     private String descripcion;
     private int idCategoria;
-    
+
     Connection conn;
     Statement state;
     ResultSet res;
@@ -41,12 +45,12 @@ public class Item {
     public Item() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/menuDigital?zeroDateTimeBehavior=CONVERT_TO_NULL","root","123456");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/menuDigital", "root", "123456");
             state = conn.createStatement();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     public String getNombre() {
@@ -96,36 +100,84 @@ public class Item {
     public void setQuery(String query) {
         this.query = query;
     }
-    
-    public ArrayList verItem(){
+
+    public ArrayList verItem() {
         ArrayList<Item> lista = null;
         Item i;
-        
+
         try {
             res = state.executeQuery(query);
             lista = new ArrayList<>();
-            while(res.next()){
+            while (res.next()) {
                 i = new Item();
                 i.setNombre(res.getString("nombre"));
-                lista.add(i);                
+                lista.add(i);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista;
     }
-    
-    public boolean crearItem(){
+
+    public boolean crearItem() {
         try {
             int resultado = state.executeUpdate(query);
-            
             if (resultado > 0) {
                 return true;
-            }
+            }            
         } catch (SQLException ex) {
             Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
+    
+    public Item buscarItem(){
+        Item i = null;
+        
+        try {
+            res = state.executeQuery(query);
+            while (res.next()) {
+                i = new Item();
+                i.setNombre(res.getString("nombre"));
+                i.setPrecio(res.getInt("precio"));
+                i.setImagen(res.getString("imagen"));
+                i.setDescripcion(res.getString("descripcion"));
+                i.setIdCategoria(res.getInt("categoria_idCategoria"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return i;
+    }
+    
+    public boolean EliminarItem(){
+        try {
+            int resultado = state.executeUpdate(query);
+            if (resultado > 0) {
+                return true;
+            }            
+        } catch (SQLException ex) {
+            Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean modificarItem(){
+        try {
+            int resultado = state.executeUpdate(query);
+            if (resultado > 0) {
+                return true;
+            }            
+        } catch (SQLException ex) {
+            Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+    return this.getNombre();
+    }
+
     
 }

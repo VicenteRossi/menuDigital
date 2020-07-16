@@ -11,7 +11,10 @@ import Controlador.Item;
 import Controlador.Mesa;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -35,9 +38,9 @@ public class CRUD extends javax.swing.JFrame {
         lstVerModificarCategoria.setModel(modeloCategoria);
 
         //Item
-        lstVerCrearItem.setModel(modeloitem);
-        lstVerModificarItem.setModel(modeloitem);
-        lstVerEliminarItem.setModel(modeloitem);
+        lstVerCrearItem.setModel(modeloItem);
+        lstVerModificarItem.setModel(modeloItem);
+        lstVerEliminarItem.setModel(modeloItem);
 
         //Usuarios
         lstVerCrearUsuarios.setModel(modeloUsuario);
@@ -97,10 +100,10 @@ public class CRUD extends javax.swing.JFrame {
         txtModificarPrecio = new javax.swing.JTextField();
         cbxModificarCategoria = new javax.swing.JComboBox<>();
         btnBuscarModificarImagen = new javax.swing.JButton();
-        lblRutaBuscarImagen = new javax.swing.JLabel();
         txtModificarDescripcion = new javax.swing.JTextField();
         btnModificarItem = new javax.swing.JButton();
         lblResultadoModificarItem = new javax.swing.JLabel();
+        lblModificarImagenItem = new javax.swing.JLabel();
         panelEliminarItem = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         btnEliminarItem = new javax.swing.JButton();
@@ -224,13 +227,13 @@ public class CRUD extends javax.swing.JFrame {
         panelTablasLayout.setVerticalGroup(
             panelTablasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTablasLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap(60, Short.MAX_VALUE)
                 .addComponent(btnItems, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnMesas, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -343,7 +346,7 @@ public class CRUD extends javax.swing.JFrame {
                         .addComponent(btnCrearItem)
                         .addGap(18, 18, 18)
                         .addComponent(lblResultadoCrearItem, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 81, Short.MAX_VALUE))))
+                        .addGap(0, 153, Short.MAX_VALUE))))
         );
 
         panelItems.addTab("Crear", panelCrearItem);
@@ -351,6 +354,11 @@ public class CRUD extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 48)); // NOI18N
         jLabel4.setText("Modificar item");
 
+        lstVerModificarItem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstVerModificarItemMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(lstVerModificarItem);
 
         jLabel2.setText("Nombre");
@@ -366,8 +374,18 @@ public class CRUD extends javax.swing.JFrame {
         cbxModificarCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 
         btnBuscarModificarImagen.setText("Buscar");
+        btnBuscarModificarImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarModificarImagenActionPerformed(evt);
+            }
+        });
 
         btnModificarItem.setText("Modificar item");
+        btnModificarItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarItemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelModificarItemLayout = new javax.swing.GroupLayout(panelModificarItem);
         panelModificarItem.setLayout(panelModificarItemLayout);
@@ -380,7 +398,7 @@ public class CRUD extends javax.swing.JFrame {
                 .addGroup(panelModificarItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelModificarItemLayout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtModificarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelModificarItemLayout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -388,21 +406,22 @@ public class CRUD extends javax.swing.JFrame {
                         .addComponent(txtModificarPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelModificarItemLayout.createSequentialGroup()
                         .addGroup(panelModificarItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
                             .addComponent(jLabel11)
-                            .addComponent(jLabel12))
+                            .addComponent(jLabel10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelModificarItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnModificarItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                            .addComponent(txtModificarDescripcion)
-                            .addGroup(panelModificarItemLayout.createSequentialGroup()
-                                .addComponent(lblRutaBuscarImagen)
-                                .addGap(66, 66, 66)
-                                .addComponent(btnBuscarModificarImagen))
-                            .addComponent(cbxModificarCategoria, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(panelModificarItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbxModificarCategoria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscarModificarImagen, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelModificarItemLayout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                        .addComponent(txtModificarDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelModificarItemLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblResultadoModificarItem)))
+                        .addGroup(panelModificarItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblModificarImagenItem, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnModificarItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblResultadoModificarItem, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelModificarItemLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -432,17 +451,18 @@ public class CRUD extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelModificarItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(btnBuscarModificarImagen)
-                            .addComponent(lblRutaBuscarImagen))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnBuscarModificarImagen))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblModificarImagenItem)
+                        .addGap(25, 25, 25)
                         .addGroup(panelModificarItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel12)
-                            .addComponent(txtModificarDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtModificarDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12))
                         .addGap(18, 18, 18)
                         .addComponent(btnModificarItem)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblResultadoModificarItem)
-                        .addGap(0, 103, Short.MAX_VALUE)))
+                        .addGap(0, 162, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -452,6 +472,11 @@ public class CRUD extends javax.swing.JFrame {
         jLabel13.setText("Eliminar item");
 
         btnEliminarItem.setText("Eliminar item");
+        btnEliminarItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarItemActionPerformed(evt);
+            }
+        });
 
         jScrollPane4.setViewportView(lstVerEliminarItem);
 
@@ -486,7 +511,7 @@ public class CRUD extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblResultadoEliminarItem)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -552,7 +577,7 @@ public class CRUD extends javax.swing.JFrame {
                         .addComponent(btnCrearCategoria)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblResultadoCrearCategoria)
-                        .addGap(0, 265, Short.MAX_VALUE))
+                        .addGap(0, 337, Short.MAX_VALUE))
                     .addComponent(jScrollPane3))
                 .addContainerGap())
         );
@@ -609,7 +634,7 @@ public class CRUD extends javax.swing.JFrame {
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelModificarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
                     .addGroup(panelModificarCategoriaLayout.createSequentialGroup()
                         .addGroup(panelModificarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17)
@@ -663,7 +688,7 @@ public class CRUD extends javax.swing.JFrame {
                 .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEliminarCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
                     .addGroup(panelEliminarCategoriaLayout.createSequentialGroup()
                         .addComponent(lblResultadoEliminarCategoria)
                         .addGap(37, 37, 37)
@@ -720,8 +745,8 @@ public class CRUD extends javax.swing.JFrame {
                         .addComponent(btnCrearMesa)
                         .addGap(18, 18, 18)
                         .addComponent(lblResultadoCrearMesa)
-                        .addContainerGap(311, Short.MAX_VALUE))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)))
+                        .addContainerGap(383, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)))
         );
 
         panelMesas.addTab("Crear", panelCrearMesa);
@@ -766,7 +791,7 @@ public class CRUD extends javax.swing.JFrame {
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEliminarMesaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
                     .addGroup(panelEliminarMesaLayout.createSequentialGroup()
                         .addComponent(btnEliminarMesa)
                         .addGap(18, 18, 18)
@@ -853,7 +878,7 @@ public class CRUD extends javax.swing.JFrame {
                         .addComponent(btnCrearUsuario)
                         .addGap(18, 18, 18)
                         .addComponent(lblResultadoCrearUsuario)
-                        .addGap(0, 183, Short.MAX_VALUE)))
+                        .addGap(0, 255, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -937,7 +962,7 @@ public class CRUD extends javax.swing.JFrame {
                         .addComponent(btnModificarUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblResultadoModificarUsuario)
-                        .addGap(0, 189, Short.MAX_VALUE)))
+                        .addGap(0, 261, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -1094,13 +1119,13 @@ public class CRUD extends javax.swing.JFrame {
         }
 
         //ver tabla item
-        String queryItem = "SELECT * FROM item";
+        String queryItem = "SELECT `nombre` FROM `item`";
         item.setQuery(queryItem);
         ArrayList<Item> listaItem = item.verItem();
 
         if (listaItem != null) {
             for (Item i : listaItem) {
-                modeloitem.addElement(i.toString());
+                modeloItem.addElement(i.toString());
             }
         } else {
             lblResultadoCrearItem.setText("No hay item");
@@ -1109,8 +1134,8 @@ public class CRUD extends javax.swing.JFrame {
         }
 
         //ver tabla mesa
-        String queryMesa = "SELECT `mesa` FROM `mesa`";
-        item.setQuery(queryMesa);
+        String queryMesa = "SELECT `numero` FROM `mesa`"; //query va a buscar columna numero en tabla mesa
+        mesa.setQuery(queryMesa); //establecer 
         ArrayList<Mesa> listaMesa = mesa.verMesa();
 
         if (listaMesa != null) {
@@ -1144,6 +1169,7 @@ public class CRUD extends javax.swing.JFrame {
         } else {
             if (!cate.crearCategoria()) {
                 lblResultadoCrearCategoria.setText("Error al crear categoria");
+                lstVerCrearCategoria.setModel(modeloCategoria);
             } else {
                 lblResultadoCrearCategoria.setText("Exito al crear categoria");
             }
@@ -1157,22 +1183,34 @@ public class CRUD extends javax.swing.JFrame {
         int categoria = cbxCrearCategoria.getSelectedIndex() + 1;
         String descripcion = txtCrearDescripcion.getText();
         String ruta = lblRutaImagen.getText();
-        
-        //FileInputStream fi = new FileInputStream(foto);
 
-        String query = "INSERT INTO `item`(`nombre`, `precio`, `imagen`, `descripcion`, `categoria_idCategoria`)"
-                + " VALUES ('" + nombre + "'," + precio + ",LOAD_FILE('" + ruta + "'),'" + descripcion + "'," + categoria + ")";
+        StringBuffer sb = new StringBuffer();
+        char ch[] = ruta.toCharArray();
 
-        item.setQuery(query);
+        for (int i = 0; i < ch.length; i++) {
+            String hex = Integer.toHexString(ch[i]);
+            sb.append(hex);
+        }
+        String imagenHex = sb.toString();
 
-        if (nombre.equals("") || precio.equals("")) {
-            lblResultadoCrearItem.setText("Complete los campos necesarios");
-        } else {
-            if (item.crearItem()) {
-                lblResultadoCrearItem.setText("Exito al crear item");
+        try {
+            int precioNumerico = Integer.parseInt(precio);
+
+            String query = "INSERT INTO `item`(`nombre`, `precio`, `imagen`, `descripcion`, `categoria_idCategoria`)"
+                    + " VALUES ('" + nombre + "'," + precio + ",x'" + imagenHex + "','" + descripcion + "'," + categoria + ")";
+            item.setQuery(query);
+
+            if (nombre.equals("") || precio.equals("")) {
+                lblResultadoCrearItem.setText("Complete los campos necesarios");
             } else {
-                lblResultadoCrearItem.setText("Error al crear item");
+                if (item.crearItem()) {
+                    lblResultadoCrearItem.setText("Exito al crear item");
+                } else {
+                    lblResultadoCrearItem.setText("Error al crear item");
+                }
             }
+        } catch (NumberFormatException ex) {
+            lblResultadoCrearItem.setText("Ingrese valores correspondientes");
         }
     }//GEN-LAST:event_btnCrearItemActionPerformed
 
@@ -1186,7 +1224,7 @@ public class CRUD extends javax.swing.JFrame {
         int seleccion = fc.showOpenDialog(this); //guardar resultado de la seleccion
 
         if (seleccion == JFileChooser.APPROVE_OPTION) { //Aprovar seleccion de imagen
-            File foto = fc.getSelectedFile(); //guradar imagen
+            foto = fc.getSelectedFile(); //guradar imagen
             String ruta = foto.getAbsolutePath(); //obtener ruta de la imagen
             lblRutaImagen.setText(ruta);
         }
@@ -1231,10 +1269,10 @@ public class CRUD extends javax.swing.JFrame {
 
     //Crear mesa
     private void btnCrearMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearMesaActionPerformed
-        int lista = lstVerCrearMesas.getLastVisibleIndex();
+        int lista = lstVerCrearMesas.getLastVisibleIndex() + 1;
         int insert = 1 + lista;
 
-        String query = "INSERT INTO `mesa`(`mesa`) VALUES ('" + insert + "')";
+        String query = "INSERT INTO `mesa`(`numero`) VALUES ('" + insert + "')";
         mesa.setQuery(query);
 
         if (mesa.crearMesa()) {
@@ -1246,7 +1284,7 @@ public class CRUD extends javax.swing.JFrame {
 
     //Eliminar mesa
     private void btnEliminarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarMesaActionPerformed
-        int ultimaMesa = lstVerEliminarMesas.getLastVisibleIndex();
+        int ultimaMesa = lstVerEliminarMesas.getLastVisibleIndex() + 1;
 
         String query = "DELETE FROM `mesa` WHERE idMesa = " + ultimaMesa + "";
         mesa.setQuery(query);
@@ -1341,6 +1379,94 @@ public class CRUD extends javax.swing.JFrame {
             lblResultadoEliminarUsuario.setText("Error al eliminar usuario");
         }
     }//GEN-LAST:event_btnEliminarUsuarioActionPerformed
+
+    //Establecer elementos modificar item
+    private void lstVerModificarItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstVerModificarItemMouseClicked
+        String query = "SELECT * FROM `item` WHERE nombre = '" + lstVerModificarItem.getSelectedValue() + "'";
+        item.setQuery(query);
+
+        Item itemEncontrado = item.buscarItem();
+
+        if (itemEncontrado != null) {
+            txtModificarNombre.setText(itemEncontrado.getNombre());
+            txtModificarPrecio.setText(Integer.toString(itemEncontrado.getPrecio()));
+            String hexa = itemEncontrado.getImagen();
+            char[] charArray = hexa.toCharArray();
+            String url = new String();
+            for (int i = 0; charArray.length < 10; i = i + 2) {
+                String st = "" + charArray[i] + "" + charArray[i + 1];
+                char ch = (char) Integer.parseInt(st, 16);
+                url = url + ch;
+            }
+            lblModificarImagenItem.setText(url);
+            cbxModificarCategoria.setSelectedIndex(itemEncontrado.getIdCategoria());
+            txtModificarDescripcion.setText(itemEncontrado.getDescripcion());
+        } else {
+            lblResultadoModificarItem.setText("Error al buscar item");
+        }
+    }//GEN-LAST:event_lstVerModificarItemMouseClicked
+
+    //Buscar imagen modificar item
+    private void btnBuscarModificarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarModificarImagenActionPerformed
+        JFileChooser fc = new JFileChooser(); //Escoger imagen
+        fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); //buscar y seleccionar carpetas y archivos
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.PNG", "png", "*.JPG", "jpg"); //filtar tipos de archivos
+        fc.setFileFilter(filtro); //asignar filtro al selector
+
+        int seleccion = fc.showOpenDialog(this); //guardar resultado de la seleccion
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) { //Aprovar seleccion de imagen
+            foto = fc.getSelectedFile(); //guradar imagen
+            String ruta = foto.getAbsolutePath(); //obtener ruta de la imagen
+            lblModificarImagenItem.setText(ruta);
+        }
+    }//GEN-LAST:event_btnBuscarModificarImagenActionPerformed
+
+    //Eliminar item
+    private void btnEliminarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarItemActionPerformed
+        String query = "DELETE FROM `item` WHERE nombre = '" + lstVerEliminarItem.getSelectedValue() + "'";
+        item.setQuery(query);
+
+        if (item.EliminarItem()) {
+            lblResultadoEliminarItem.setText("Exito al eliminar item");
+        } else {
+            lblResultadoEliminarItem.setText("Error al eliminar item");
+        }
+
+    }//GEN-LAST:event_btnEliminarItemActionPerformed
+
+    //Modificar item
+    private void btnModificarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarItemActionPerformed
+        String nombre = txtModificarNombre.getText();
+        String precio = txtModificarPrecio.getText();
+        String ruta = lblModificarImagenItem.getText();
+        int categoria = cbxModificarCategoria.getSelectedIndex();
+        String descripcion = txtModificarDescripcion.getText();
+
+        StringBuffer sb = new StringBuffer();
+        char ch[] = ruta.toCharArray();
+
+        for (int i = 0; i < ch.length; i++) {
+            String hex = Integer.toHexString(ch[i]);
+            sb.append(hex);
+        }
+        String imagenHex = sb.toString();
+
+        try {
+            int precioNumerico = Integer.parseInt(precio);
+
+            String query = "UPDATE `item` SET `nombre`= '" + nombre + "',`precio`= " + precio + ",`imagen`= x'" + imagenHex + "',`descripcion`='" + descripcion + "',`categoria_idCategoria`= " + categoria + " WHERE nombre = '" + lstVerModificarItem.getSelectedValue() + "'";
+            item.setQuery(query);
+
+            if (item.modificarItem()) {
+                lblResultadoModificarItem.setText("Exito al modificar item");
+            } else {
+                lblResultadoModificarItem.setText("Error al modificar item");
+            }
+        } catch (NumberFormatException ex) {
+            lblResultadoModificarItem.setText("Ingrese valores correspondientes");
+        }
+    }//GEN-LAST:event_btnModificarItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1437,6 +1563,7 @@ public class CRUD extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JLabel lblModificarImagenItem;
     private javax.swing.JLabel lblResultadoCrearCategoria;
     private javax.swing.JLabel lblResultadoCrearItem;
     private javax.swing.JLabel lblResultadoCrearMesa;
@@ -1448,7 +1575,6 @@ public class CRUD extends javax.swing.JFrame {
     private javax.swing.JLabel lblResultadoModificarCategoria;
     private javax.swing.JLabel lblResultadoModificarItem;
     private javax.swing.JLabel lblResultadoModificarUsuario;
-    private javax.swing.JLabel lblRutaBuscarImagen;
     private javax.swing.JLabel lblRutaImagen;
     private javax.swing.JList<String> lstVerCrearCategoria;
     private javax.swing.JList<String> lstVerCrearItem;
@@ -1493,11 +1619,12 @@ public class CRUD extends javax.swing.JFrame {
     private javax.swing.JTextField txtModificarUsuario;
     // End of variables declaration//GEN-END:variables
     DefaultListModel<String> modeloCategoria = new DefaultListModel<>();
-    DefaultListModel<String> modeloitem = new DefaultListModel<>();
+    DefaultListModel<String> modeloItem = new DefaultListModel<>();
     DefaultListModel<String> modeloMesa = new DefaultListModel<>();
     DefaultListModel<String> modeloUsuario = new DefaultListModel<>();
     Admin admin = new Admin();
     Categoria cate = new Categoria();
     Item item = new Item();
     Mesa mesa = new Mesa();
+    File foto;
 }

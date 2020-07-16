@@ -90,13 +90,13 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <EmptySpace pref="60" max="32767" attributes="0"/>
                       <Component id="btnItems" min="-2" pref="83" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnCategorias" min="-2" pref="83" max="-2" attributes="0"/>
-                      <EmptySpace pref="43" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnMesas" min="-2" pref="83" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnUsuarios" min="-2" pref="83" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -254,7 +254,7 @@
                                       <Component id="btnCrearItem" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblResultadoCrearItem" min="-2" pref="26" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="81" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="153" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -371,7 +371,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="90" max="32767" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                       <Component id="txtModificarNombre" min="-2" pref="195" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -381,25 +381,27 @@
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="btnModificarItem" alignment="1" pref="195" max="32767" attributes="0"/>
-                                          <Component id="txtModificarDescripcion" max="32767" attributes="0"/>
-                                          <Group type="102" attributes="0">
-                                              <Component id="lblRutaBuscarImagen" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                                              <Component id="btnBuscarModificarImagen" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="cbxModificarCategoria" alignment="1" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="cbxModificarCategoria" alignment="1" min="-2" pref="195" max="-2" attributes="0"/>
+                                          <Component id="btnBuscarModificarImagen" alignment="1" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace pref="65" max="32767" attributes="0"/>
+                                      <Component id="txtModificarDescripcion" min="-2" pref="195" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      <Component id="lblResultadoModificarItem" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblModificarImagenItem" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnModificarItem" alignment="1" min="-2" pref="195" max="-2" attributes="0"/>
+                                          <Component id="lblResultadoModificarItem" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -438,18 +440,19 @@
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="btnBuscarModificarImagen" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblRutaBuscarImagen" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lblModificarImagenItem" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtModificarDescripcion" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="btnModificarItem" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Component id="lblResultadoModificarItem" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="103" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="162" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -479,6 +482,9 @@
                               <StringArray count="0"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lstVerModificarItemMouseClicked"/>
+                          </Events>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
@@ -530,8 +536,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Buscar"/>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="lblRutaBuscarImagen">
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarModificarImagenActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtModificarDescripcion">
                     </Component>
@@ -539,8 +546,13 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Modificar item"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarItemActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="lblResultadoModificarItem">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="lblModificarImagenItem">
                     </Component>
                   </SubComponents>
                 </Container>
@@ -589,7 +601,7 @@
                                       <Component id="lblResultadoEliminarItem" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="jScrollPane4" pref="347" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane4" pref="419" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -609,6 +621,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Eliminar item"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarItemActionPerformed"/>
+                      </Events>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane4">
                       <AuxValues>
@@ -699,7 +714,7 @@
                                       <Component id="btnCrearCategoria" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="lblResultadoCrearCategoria" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="265" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="337" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jScrollPane3" max="32767" attributes="0"/>
                               </Group>
@@ -803,7 +818,7 @@
                               <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane5" pref="347" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane5" pref="419" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -913,7 +928,7 @@
                               <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane7" pref="347" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane7" pref="419" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Component id="lblResultadoEliminarCategoria" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
@@ -1024,9 +1039,9 @@
                                       <Component id="btnCrearMesa" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblResultadoCrearMesa" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="311" max="32767" attributes="0"/>
+                                      <EmptySpace pref="383" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="jScrollPane6" alignment="1" pref="359" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane6" alignment="1" pref="431" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -1115,7 +1130,7 @@
                               <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane8" pref="347" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane8" pref="419" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Component id="btnEliminarMesa" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -1250,7 +1265,7 @@
                                       <Component id="btnCrearUsuario" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblResultadoCrearUsuario" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="183" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="255" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -1388,7 +1403,7 @@
                                       <Component id="btnModificarUsuario" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="lblResultadoModificarUsuario" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="189" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="261" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
