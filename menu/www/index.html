@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
   <link href="css/styles.css" rel="stylesheet">
   <script defer src="js/popUp.js"></script>
   <script src="js/index.js"></script>
+  <script src="js/conexion.js"></script>
 </head>
 
 <body>
@@ -22,20 +24,23 @@
   </button>
   <!-- menú en overlay -->
   <div class="modal" id="modal">
-    <div class="modal-header"> <!-- cabecera del menú overlay -->
-      <div class="title">Nombre plato</div>
+    <div class="modal-header">
+      <!-- cabecera del menú overlay -->
+      <div class="title" id="nombreItem">Nombre plato</div>
+      <div class="title" id="precioItem">10000</div>
       <button data-close-button class="close-button">&times;</button> <!-- botón de salida -->
     </div>
     <div class="imagen">
       <img src="img/plato_vacio.jpg" id="plato">
     </div>
-    <div class="modal-body"> <!-- cuerpo del menu overlay -->
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse quod alias ut illo doloremque 
-      eum ipsum obcaecati distinctio debitis reiciendis quae quia soluta totam doloribus quos 
-      nesciunt necessitatibus, consectetur quisquam accusamus ex, dolorum, dicta vel? Nostrum 
+    <div class="modal-body" id="descripcion">
+      <!-- cuerpo del menu overlay -->
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse quod alias ut illo doloremque
+      eum ipsum obcaecati distinctio debitis reiciendis quae quia soluta totam doloribus quos
+      nesciunt necessitatibus, consectetur quisquam accusamus ex, dolorum, dicta vel? Nostrum
       voluptatem totam, molestiae rem at ad autem dolor ex aperiam. Amet assumenda eos architecto,
-      dolor placeat deserunt voluptatibus tenetur sint officiis perferendis atque! Voluptatem maxime 
-      eius eum dolorem dolor exercitationem quis iusto totam! Repudiandae nobis nesciunt sequi iure! 
+      dolor placeat deserunt voluptatibus tenetur sint officiis perferendis atque! Voluptatem maxime
+      eius eum dolorem dolor exercitationem quis iusto totam! Repudiandae nobis nesciunt sequi iure!
       Eligendi, eius libero. Ex, repellat sapiente!
     </div>
     <div class="botones">
@@ -45,4 +50,5 @@
   </div>
   <div id="overlay"></div> <!-- fondo de pantalla detras del menu -->
 </body>
+
 </html>
