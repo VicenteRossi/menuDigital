@@ -1,7 +1,4 @@
-const express = require('express');
 const mysql = require('mysql');
-
-const con = express();
 
 // Create connection
 const db = mysql.createConnection({
@@ -15,16 +12,24 @@ const db = mysql.createConnection({
 // Connect
 db.connect();
 
-var select = db.query("SELECT * FROM item", function (err, results) {
+//Variables en tabla
+var nombreItem;
+var precioItem;
+var imagenItem;
+var descripcionItem;
+var categoriaItem;
+
+//Ver objetos tabal item
+db.query("SELECT * FROM item", function (err, results) {
   if (err) throw err;
   for (var i = 0; i < results.length; i++) {
-    var nombreItem = results[i].nombre;
-    var precioItem = results[i].precio;
-    var imagenItem = results[i].imagen;
-    var descripcionItem = results[i].descripcion;
-    var categoriaItem = results[i].categoria;  
+    nombreItem = results[i].nombre;
+    precioItem = results[i].precio;
+    imagenItem = results[i].imagen;
+    descripcionItem = results[i].descripcion;
+    categoriaItem = results[i].categoria;  
   } 
   console.log(results);
 });
 
-export {select};
+//export {nombreItem};
