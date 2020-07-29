@@ -1,26 +1,29 @@
-var mysql      = require('mysql');
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '123456',
-  database : 'menuDigital'
+const express = require('express');
+const mysql = require('mysql');
+
+const con = express();
+
+// Create connection
+const db = mysql.createConnection({
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: '123456',
+  database: 'menuDigital'
 });
 
-connection.connect();
+// Connect
+db.connect();
 
-var nombreItem = document.getElementById('nombreItem');
-var precioItem = document.getElementById('precioItem');
-var imagen = document.getElementById('plato');
-var descripcion = document.getElementById('descripcion');
-
- var select = connection.query('SELECT * FROM `item`', function (error, results, fields) {
-  if (error) throw error;
-  console.log(results);
+db.query("SELECT * FROM item", function (err, results) {
+  if (err) throw err;
+  for (var i = 0; i < results.length; i++) {
+    var nombre = results[i].nombre;
+    var precio = results[i].precio;
+    var imagen = results[i].imagen;
+    var descripcion = results[i].descripcion;
+    var categoria = results[i].categoria;
+    
+    console.log(nombre);    
+  }  
 });
-
-var pedido = connection.query('INSERT INTO `pedido`(notas`, `mesa_idMesa`, `fecha`, `hora`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5])', function (error, results, fields) {
-  if (error) throw error;
-  console.log(results);
-});
-
-connection.end();
