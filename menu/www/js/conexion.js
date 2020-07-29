@@ -15,15 +15,16 @@ const db = mysql.createConnection({
 // Connect
 db.connect();
 
-db.query("SELECT * FROM item", function (err, results) {
+var select = db.query("SELECT * FROM item", function (err, results) {
   if (err) throw err;
   for (var i = 0; i < results.length; i++) {
-    var nombre = results[i].nombre;
-    var precio = results[i].precio;
-    var imagen = results[i].imagen;
-    var descripcion = results[i].descripcion;
-    var categoria = results[i].categoria;
-    
-    console.log(nombre);    
-  }  
+    var nombreItem = results[i].nombre;
+    var precioItem = results[i].precio;
+    var imagenItem = results[i].imagen;
+    var descripcionItem = results[i].descripcion;
+    var categoriaItem = results[i].categoria;  
+  } 
+  console.log(results);
 });
+
+export {select};
