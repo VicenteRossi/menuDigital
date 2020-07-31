@@ -1197,7 +1197,7 @@ public class CRUD extends javax.swing.JFrame {
             int precioNumerico = Integer.parseInt(precio);
 
             String query = "INSERT INTO `item`(`nombre`, `precio`, `imagen`, `descripcion`, `categoria_idCategoria`)"
-                    + " VALUES ('" + nombre + "'," + precio + ",x'" + imagenHex + "','" + descripcion + "'," + categoria + ")";
+                    + " VALUES ('" + nombre + "'," + precioNumerico + ",x'" + imagenHex + "','" + descripcion + "'," + categoria + ")";
             item.setQuery(query);
 
             if (nombre.equals("") || precio.equals("")) {
@@ -1455,7 +1455,7 @@ public class CRUD extends javax.swing.JFrame {
         try {
             int precioNumerico = Integer.parseInt(precio);
 
-            String query = "UPDATE `item` SET `nombre`= '" + nombre + "',`precio`= " + precio + ",`imagen`= x'" + imagenHex + "',`descripcion`='" + descripcion + "',`categoria_idCategoria`= " + categoria + " WHERE nombre = '" + lstVerModificarItem.getSelectedValue() + "'";
+            String query = "UPDATE `item` SET `nombre`= '" + nombre + "',`precio`= " + precioNumerico + ",`imagen`= x'" + imagenHex + "',`descripcion`='" + descripcion + "',`categoria_idCategoria`= " + categoria + " WHERE nombre = '" + lstVerModificarItem.getSelectedValue() + "'";
             item.setQuery(query);
 
             if (item.modificarItem()) {

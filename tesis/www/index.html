@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Menu digital</title>
+  <link href="css/styles.css" rel="stylesheet">
+  <script defer src="js/popUp.js"></script>
+  <script src="js/index.js"></script>
+
+</head>
+
+<body>
+  <!-- Boton pedir del carrito-->
+  <div class="header">
+    <h1>Restaurant</h1>
+    <button id="carrito"> Pedir</button>
+  </div>
+  <!-- botón en pagina principal -->
+  <button data-modal-target="#modal">
+    <h3 id="titulo">Nombre Item</h3>
+    <img src="img/plato_vacio.jpg">
+  </button>
+  <!-- menú en overlay -->
+  <div class="modal" id="modal">
+    <div class="modal-header" id="item">
+      <!-- cabecera del menú overlay -->
+      <div class="title" id="nombreItem">Nombre</div>
+      <div class="title" id="precioItem">$10000</div>
+      <button data-close-button class="close-button">&times;</button> <!-- botón de salida -->
+    </div>
+    <div class="imagen" id="imagenItem">
+
+    </div>
+    <div class="modal-body" id="descripcion">
+      <!-- cuerpo del menu overlay -->
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Praesentium exercitationem ad dicta dolorum eius neque nobis beatae ea earum laboriosam
+      blanditiis necessitatibus in debitis fugiat doloribus quas consequuntur, provident commodi.
+    </div>
+    <div class="botones">
+      <button id="agregar">Agregar</button>
+      <button id="modificar">Modificar</button>
+    </div>
+  </div>
+  <div id="overlay"></div> <!-- fondo de pantalla detras del menu -->
+
+  <script src="js/mostrar.js"></script>
+  <script src="js/conexion.js"></script>
+</body>
+
+</html>
