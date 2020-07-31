@@ -23,5 +23,6 @@ var descripcionItem = results[i].descripcion;
 var categoriaItem = results[i].categoria;  
 }
 console.log(results);
-
+ var item = document.getElementById('nombreItem');
+ item.textContent = nombreItem;
 });
